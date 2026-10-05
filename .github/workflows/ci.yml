@@ -8,6 +8,7 @@ on:
 
 jobs:
   backend:
+    name: Backend
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +23,7 @@ jobs:
         run: dotnet test QAssure.slnx --no-build --configuration Release
 
   frontend:
+    name: Frontend
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -31,9 +33,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: frontend/qassure-web/package-lock.json
       - name: Install
-        run: npm ci
+        run: npm install --no-audit --no-fund
       - name: Build
         run: npm run build
