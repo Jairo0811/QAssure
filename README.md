@@ -10,9 +10,7 @@
 
 <br/><br/>
 
-<a href="https://github.com/Jairo0811/QAssure/actions/workflows/ci.yml">
-  <img src="https://github.com/Jairo0811/QAssure/actions/workflows/ci.yml/badge.svg" alt="CI" />
-</a>
+<a href="https://github.com/Jairo0811/QAssure/actions/workflows/ci.yml"><img src="https://github.com/Jairo0811/QAssure/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 
 </div>
 
@@ -20,178 +18,106 @@
 
 ## 📌 Descripción
 
-**QAssure** es una plataforma de aseguramiento de calidad de software creada para **Verificación y Validación de Software (ISO-410)** en la **Universidad APEC (UNAPEC)**.
-
-Centraliza requisitos, riesgos, casos de prueba, ejecuciones, defectos, trazabilidad, métricas de calidad y evidencia de validación dentro de un flujo integrado de QA.
+**QAssure** es una plataforma de aseguramiento de calidad de software creada para **Verificación y Validación de Software (ISO-410)** en la **Universidad APEC (UNAPEC)**. Centraliza requisitos, riesgos, diseño y ejecución de pruebas, defectos, re-test, trazabilidad, métricas, quality gates y evidencia de validación.
 
 ```text
-Requirements → Risks → Test Cases → Test Runs → Defects → Re-test → Regression → Validation → Quality Report
+Project → Requirement → Risk → Test Case → Test Run → Execution
+                                              ↓
+                                           Defect
+                                              ↓
+                                           Re-test
+                                              ↓
+Traceability → Quality Report → Final Validation → Release Gate
 ```
-
----
 
 ## 🎓 Información académica
 
 | Información | Detalle |
 |---|---|
-| 🏫 Institución | **Universidad APEC (UNAPEC)** |
-| 📖 Asignatura | **Verificación y Validación de Software (ISO-410)** |
-| 👨‍🏫 Profesor | **Luis Nuñez Acosta** |
-| 📅 Período académico | **Enero - Abril 2025** |
-| 📁 Proyecto | **QAssure** |
+| Institución | **Universidad APEC (UNAPEC)** |
+| Asignatura | **Verificación y Validación de Software (ISO-410)** |
+| Profesor | **Luis Nuñez Acosta** |
+| Período académico documentado en el repositorio | **Enero - Abril 2025** |
+| Proyecto | **QAssure** |
 
-### 👥 Equipo académico original
+### Equipo académico original
 
-| 👤 Integrante | 🆔 Matrícula UNAPEC |
+| Integrante | Matrícula UNAPEC |
 |---|---|
-| 👨🏻‍💻 **Albert Mateo Tejada** | **A00107388** |
-| 👨🏻‍💻 **Francisco Daniel Lora Gonzalez** | **A00114255** |
-| 👨🏻‍💻 **Francis Jairo Matias Rosario** | **A00115261** |
+| **Albert Mateo Tejada** | **A00107388** |
+| **Francisco Daniel Lora Gonzalez** | **A00114255** |
+| **Francis Jairo Matias Rosario** | **A00115261** |
 
 ---
 
-## 🧭 Continuidad académica
+## 🧱 Stack
 
-### 🎓 Puente interinstitucional ITLA → UNAPEC
+- **Backend:** ASP.NET Core 10 Web API, C#, EF Core 10, Clean Architecture, JWT Bearer.
+- **Frontend:** React 19, TypeScript, Vite.
+- **Datos:** SQL Server + Docker Compose.
+- **QA:** xUnit, GitHub Actions, k6; documentación para seguridad, heurísticas de usabilidad y UAT.
 
-Los tres integrantes del equipo tienen trayectoria académica documentada tanto en **ITLA** como en **UNAPEC**.
+## ✅ Estado — 7 fases completas
 
-| Integrante | Matrícula ITLA | Matrícula UNAPEC |
-|---|---:|---:|
-| Albert Mateo Tejada | **2018-6302** | **A00107388** |
-| Francisco Daniel Lora Gonzalez | **2019-7800** | **A00114255** |
-| Francis Jairo Matias Rosario | **2015-2984** | **A00115261** |
-
-Esta tabla documenta únicamente la continuidad institucional de cada integrante. **No implica que hayan cursado las mismas asignaturas ni que hayan coincidido académicamente entre sí en ITLA.**
-
----
-
-## 🧱 Stack tecnológico
-
-### ⚙️ Backend
-
-<p>
-  <img src="https://skillicons.dev/icons?i=cs,dotnet" alt="C# y .NET" />
-  <img src="https://img.shields.io/badge/ASP.NET%20Core-Web%20API-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt="ASP.NET Core Web API" />
-  <img src="https://img.shields.io/badge/EF%20Core-10-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt="Entity Framework Core 10" />
-</p>
-
-- ASP.NET Core 10 Web API;
-- C#;
-- Entity Framework Core 10;
-- Clean Architecture;
-- JWT Bearer;
-- autorización basada en roles;
-- OpenAPI.
-
-### 🎨 Frontend
-
-<p>
-  <img src="https://skillicons.dev/icons?i=react,ts,vite" alt="React, TypeScript y Vite" />
-</p>
-
-- React 19;
-- TypeScript;
-- Vite;
-- workspace QA conectado a la API.
-
-### 🗄️ Datos
-
-<p>
-  <img src="https://skillicons.dev/icons?i=sqlserver" alt="SQL Server" />
-</p>
-
-- SQL Server;
-- Entity Framework Core;
-- entorno local mediante Docker Compose.
-
-### 🧪 QA, testing y CI
-
-<p>
-  <img src="https://img.shields.io/badge/xUnit-Unit%20Tests-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt="xUnit" />
-  <img src="https://img.shields.io/badge/Playwright-E2E-2EAD33?style=flat-square&logo=playwright&logoColor=white" alt="Playwright" />
-  <img src="https://img.shields.io/badge/Postman%20%2F%20Newman-API%20Testing-FF6C37?style=flat-square&logo=postman&logoColor=white" alt="Postman Newman" />
-  <img src="https://img.shields.io/badge/k6-Performance-7D64FF?style=flat-square&logo=k6&logoColor=white" alt="k6" />
-  <img src="https://skillicons.dev/icons?i=git,github,githubactions,docker" alt="Git, GitHub, GitHub Actions y Docker" />
-</p>
-
-- xUnit para pruebas unitarias;
-- k6 para pruebas de rendimiento;
-- GitHub Actions para CI;
-- Playwright para E2E **planificado**;
-- Postman/Newman para API testing **planificado**.
-
----
-
-## ✅ Implementación actual
-
-### Foundation
-
-- Clean Architecture solution structure.
-- SQL Server local environment with Docker Compose.
-- Health endpoint and OpenAPI foundation.
-- GitHub Actions backend/frontend CI.
-- QA-themed QAssure web shell.
-
-### Phase 1 — Authentication, Projects & Requirements
-
-- JWT authentication.
-- Roles: Admin, QA Lead, Tester, Developer, Stakeholder.
-- QA project creation and management.
-- Requirement creation, editing and approval.
-- Functional/non-functional requirements.
-- Acceptance criteria and project criticality.
-- Real frontend workspace connected to the API.
-- Boundary-value unit tests for project keys and requirement rules.
-
-See [`docs/PHASE-1.md`](docs/PHASE-1.md) for the endpoints, roles and ISO-410 test scenarios.
-
----
-
-## 🗺️ Roadmap de módulos
-
-| # | Módulo | Estado |
+| Fase | Alcance | Estado |
 |---:|---|:---:|
-| 1 | Authentication & Roles | ✅ |
-| 2 | Projects | ✅ |
-| 3 | Requirements | ✅ |
-| 4 | Risk Analysis | ⏳ |
-| 5 | Test Cases | ⏳ |
-| 6 | Test Runs | ⏳ |
-| 7 | Defects | ⏳ |
-| 8 | Traceability Matrix | ⏳ |
-| 9 | Quality Dashboard | ⏳ |
-| 10 | Reports | ⏳ |
+| Foundation | Arquitectura, CI, SQL Server, health check | ✅ |
+| 1 | Authentication, Roles, Projects, Requirements | ✅ |
+| 2 | Risk Analysis, Test Case Design | ✅ |
+| 3 | Test Runs, Execution Evidence | ✅ |
+| 4 | Defects, Re-test, Regression Loop | ✅ |
+| 5 | Traceability Matrix, Coverage | ✅ |
+| 6 | Quality Reports, Metrics, Quality Gates | ✅ |
+| 7 | Security, Performance, Usability, UAT Evidence | ✅ |
 
----
+La aplicación está en estado **QAssure 1.0 Release Candidate**. El código de las siete fases está implementado; el quality gate de cada proyecto sigue dependiendo de la evidencia real registrada y no se marca verde de forma artificial.
+
+## 🧪 Quality gate
+
+Un proyecto alcanza `Ready` cuando cumple simultáneamente:
+
+- Requirement coverage ≥ **95%**.
+- Pass rate ≥ **90%**.
+- Al menos **1** Test Run completado.
+- **0** ejecuciones pendientes en ciclos activos.
+- **0** defectos críticos abiertos.
+- **0** riesgos críticos abiertos.
+- **4/4** áreas finales de validación con evidencia Passed.
+
+De lo contrario QAssure devuelve `Conditional` o `Blocked` según la severidad de las condiciones incumplidas.
 
 ## 🚀 Desarrollo local
 
 ```bash
-# SQL Server
 docker compose up -d
 
-# Backend
 cd backend/src/QAssure.Api
 dotnet run
 
-# Frontend
 cd frontend/qassure-web
 npm install
 npm run dev
 ```
 
-The frontend uses `http://localhost:5000` as its default API URL. Copy `.env.example` to `.env` when a different API URL is needed.
+Frontend default API: `http://localhost:5000`.
 
-### Credenciales de desarrollo
+### Credenciales locales
 
-- **Email:** `admin@qassure.local`
-- **Password:** `QAssure.Local123!`
+- Email: `admin@qassure.local`
+- Password: `QAssure.Local123!`
 
-Estas credenciales y la JWT signing key son exclusivamente para desarrollo local.
+Solo para desarrollo local.
 
----
+> **Nota de base de datos:** el bootstrap académico actual usa `EnsureCreated`. Si se actualiza desde una fase anterior, recrear una vez la base local para incorporar `Defects` y `ValidationEvidences`. Para producción se recomienda migrar a EF Core Migrations.
 
-## 🧪 Filosofía QA
+## 📚 Evidencia por fase
 
-QAssure está diseñado para que el propio sistema pueda verificarse y validarse utilizando las mismas técnicas que administra: equivalence partitioning, boundary value analysis, decision tables, state transitions, use-case testing, regression, performance, security, usability y user acceptance testing.
+- [`docs/PHASE-1.md`](docs/PHASE-1.md)
+- [`docs/PHASE-2.md`](docs/PHASE-2.md)
+- [`docs/PHASE-3.md`](docs/PHASE-3.md)
+- [`docs/PHASE-4.md`](docs/PHASE-4.md)
+- [`docs/PHASE-5.md`](docs/PHASE-5.md)
+- [`docs/PHASE-6.md`](docs/PHASE-6.md)
+- [`docs/PHASE-7.md`](docs/PHASE-7.md)
+- [`docs/FINAL-VALIDATION-CHECKLIST.md`](docs/FINAL-VALIDATION-CHECKLIST.md)
+- [`docs/RELEASE-1.0.md`](docs/RELEASE-1.0.md)
