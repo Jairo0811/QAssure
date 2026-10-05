@@ -1,10 +1,12 @@
 <div align="center">
 
-# QAssure
+
+  <img src="docs/images/qassure-logo.png" alt="Logo de QAssure" width="720" />
+
 
 **Software Quality Assurance Platform**
 
-> Verify. Validate. Assure.
+ Verify. Validate. Assure.
 
 <img src="https://img.shields.io/badge/UNAPEC-ISO--410-003B70?style=for-the-badge" alt="UNAPEC ISO-410" />
 
