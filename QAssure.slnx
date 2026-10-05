@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/backend/src/">
+    <Project Path="backend/src/QAssure.Api/QAssure.Api.csproj" />
+    <Project Path="backend/src/QAssure.Application/QAssure.Application.csproj" />
+    <Project Path="backend/src/QAssure.Domain/QAssure.Domain.csproj" />
+    <Project Path="backend/src/QAssure.Infrastructure/QAssure.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/backend/tests/">
+    <Project Path="backend/tests/QAssure.UnitTests/QAssure.UnitTests.csproj" />
+  </Folder>
+</Solution>

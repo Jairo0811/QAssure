@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../QAssure.Domain/QAssure.Domain.csproj" />
+  </ItemGroup>
+</Project>
