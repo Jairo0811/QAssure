@@ -36,6 +36,41 @@ export interface Requirement {
   status: string
 }
 
+export interface RiskItem {
+  id: string
+  projectId: string
+  requirementId: string | null
+  code: string
+  title: string
+  description: string
+  probability: number
+  impact: number
+  score: number
+  level: string
+  mitigation: string
+  status: string
+}
+
+export interface TestCase {
+  id: string
+  projectId: string
+  requirementId: string | null
+  riskId: string | null
+  code: string
+  title: string
+  level: string
+  type: string
+  technique: string
+  priority: string
+  status: string
+  objective: string
+  preconditions: string
+  steps: string
+  testData: string
+  expectedResult: string
+  postconditions: string
+}
+
 interface ApiErrorBody {
   message?: string
 }
@@ -44,9 +79,7 @@ async function request<T>(path: string, options: RequestInit = {}, token?: strin
   const headers = new Headers(options.headers)
   headers.set('Content-Type', 'application/json')
 
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`)
-  }
+  if (token) headers.set('Authorization', `Bearer ${token}`)
 
   const response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers })
 
@@ -79,11 +112,7 @@ export function createProject(
   token: string,
   payload: { name: string; key: string; description: string; version: string; criticality: number },
 ): Promise<Project> {
-  return request<Project>(
-    '/api/projects',
-    { method: 'POST', body: JSON.stringify(payload) },
-    token,
-  )
+  return request<Project>('/api/projects', { method: 'POST', body: JSON.stringify(payload) }, token)
 }
 
 export function getRequirements(token: string, projectId: string): Promise<Requirement[]> {
@@ -115,4 +144,71 @@ export function approveRequirement(token: string, projectId: string, requirement
     { method: 'POST' },
     token,
   )
+}
+
+export function getRisks(token: string, projectId: string): Promise<RiskItem[]> {
+  return request<RiskItem[]>(`/api/projects/${projectId}/risks`, {}, token)
+}
+
+export function createRisk(
+  token: string,
+  projectId: string,
+  payload: {
+    requirementId: string | null
+    code: string
+    title: string
+    description: string
+    probability: number
+    impact: number
+    mitigation: string
+  },
+): Promise<RiskItem> {
+  return request<RiskItem>(
+    `/api/projects/${projectId}/risks`,
+    { method: 'POST', body: JSON.stringify(payload) },
+    token,
+  )
+}
+
+export function mitigateRisk(token: string, projectId: string, riskId: string): Promise<RiskItem> {
+  return request<RiskItem>(`/api/projects/${projectId}/risks/${riskId}/mitigate`, { method: 'POST' }, token)
+}
+
+export function acceptRisk(token: string, projectId: string, riskId: string): Promise<RiskItem> {
+  return request<RiskItem>(`/api/projects/${projectId}/risks/${riskId}/accept`, { method: 'POST' }, token)
+}
+
+export function getTestCases(token: string, projectId: string): Promise<TestCase[]> {
+  return request<TestCase[]>(`/api/projects/${projectId}/test-cases`, {}, token)
+}
+
+export function createTestCase(
+  token: string,
+  projectId: string,
+  payload: {
+    requirementId: string | null
+    riskId: string | null
+    code: string
+    title: string
+    level: number
+    type: number
+    technique: number
+    priority: number
+    objective: string
+    preconditions: string
+    steps: string
+    testData: string
+    expectedResult: string
+    postconditions: string
+  },
+): Promise<TestCase> {
+  return request<TestCase>(
+    `/api/projects/${projectId}/test-cases`,
+    { method: 'POST', body: JSON.stringify(payload) },
+    token,
+  )
+}
+
+export function markTestCaseReady(token: string, projectId: string, testCaseId: string): Promise<TestCase> {
+  return request<TestCase>(`/api/projects/${projectId}/test-cases/${testCaseId}/ready`, { method: 'POST' }, token)
 }
