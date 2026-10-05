@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using QAssure.Domain.Projects;
 using QAssure.Domain.Requirements;
+using QAssure.Domain.Risks;
 using QAssure.Domain.Testing;
 using QAssure.Domain.Users;
 
@@ -10,6 +11,7 @@ public sealed class QAssureDbContext(DbContextOptions<QAssureDbContext> options)
 {
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<Requirement> Requirements => Set<Requirement>();
+    public DbSet<RiskItem> Risks => Set<RiskItem>();
     public DbSet<TestCase> TestCases => Set<TestCase>();
     public DbSet<UserAccount> Users => Set<UserAccount>();
 
@@ -41,13 +43,52 @@ public sealed class QAssureDbContext(DbContextOptions<QAssureDbContext> options)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        modelBuilder.Entity<RiskItem>(builder =>
+        {
+            builder.ToTable("Risks");
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Code).HasMaxLength(40).IsRequired();
+            builder.Property(x => x.Title).HasMaxLength(180).IsRequired();
+            builder.Property(x => x.Description).HasMaxLength(4000).IsRequired();
+            builder.Property(x => x.Mitigation).HasMaxLength(4000).IsRequired();
+            builder.Ignore(x => x.Score);
+            builder.Ignore(x => x.Level);
+            builder.HasIndex(x => new { x.ProjectId, x.Code }).IsUnique();
+            builder.HasOne<Project>()
+                .WithMany()
+                .HasForeignKey(x => x.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne<Requirement>()
+                .WithMany()
+                .HasForeignKey(x => x.RequirementId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
         modelBuilder.Entity<TestCase>(builder =>
         {
             builder.ToTable("TestCases");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Code).HasMaxLength(40).IsRequired();
             builder.Property(x => x.Title).HasMaxLength(180).IsRequired();
+            builder.Property(x => x.Objective).HasMaxLength(2000).IsRequired();
+            builder.Property(x => x.Preconditions).HasMaxLength(4000).IsRequired();
+            builder.Property(x => x.Steps).HasMaxLength(4000).IsRequired();
+            builder.Property(x => x.TestData).HasMaxLength(4000).IsRequired();
+            builder.Property(x => x.ExpectedResult).HasMaxLength(4000).IsRequired();
+            builder.Property(x => x.Postconditions).HasMaxLength(4000).IsRequired();
             builder.HasIndex(x => new { x.ProjectId, x.Code }).IsUnique();
+            builder.HasOne<Project>()
+                .WithMany()
+                .HasForeignKey(x => x.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne<Requirement>()
+                .WithMany()
+                .HasForeignKey(x => x.RequirementId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne<RiskItem>()
+                .WithMany()
+                .HasForeignKey(x => x.RiskId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<UserAccount>(builder =>

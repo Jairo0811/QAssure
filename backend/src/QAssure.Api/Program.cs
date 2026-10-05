@@ -63,13 +63,15 @@ app.MapGet("/", () => Results.Ok(new
 {
     product = "QAssure",
     tagline = "Verify. Validate. Assure.",
-    status = "phase-1"
+    status = "phase-2"
 }));
 
 app.MapHealthChecks("/health");
 app.MapAuthEndpoints();
 app.MapProjectsEndpoints();
 app.MapRequirementsEndpoints();
+app.MapRisksEndpoints();
+app.MapTestCasesEndpoints();
 
 await DatabaseBootstrap.InitialiseAsync(app);
 await app.RunAsync();
