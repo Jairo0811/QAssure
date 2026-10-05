@@ -1,0 +1,14 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: qassure-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "QAssure_Local123!"
+    ports:
+      - "14333:1433"
+    volumes:
+      - qassure_sql_data:/var/opt/mssql
+
+volumes:
+  qassure_sql_data:

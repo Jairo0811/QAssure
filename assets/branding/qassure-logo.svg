@@ -1,0 +1,19 @@
+<svg width="960" height="320" viewBox="0 0 960 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="q" x1="80" y1="40" x2="300" y2="280" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17D7FF"/>
+      <stop offset="0.52" stop-color="#0878FF"/>
+      <stop offset="1" stop-color="#123AAE"/>
+    </linearGradient>
+    <linearGradient id="check" x1="150" y1="135" x2="275" y2="80" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11D7C7"/>
+      <stop offset="1" stop-color="#43E36F"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="320" rx="36" fill="#061A33"/>
+  <circle cx="180" cy="154" r="96" stroke="url(#q)" stroke-width="42"/>
+  <path d="M226 214L294 276" stroke="url(#q)" stroke-width="42" stroke-linecap="round"/>
+  <path d="M126 150L166 190L253 101" stroke="url(#check)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="338" y="180" fill="#F4FAFF" font-size="88" font-family="Arial, Helvetica, sans-serif" font-weight="700">Q<tspan fill="#10B9F4">A</tspan>ssure</text>
+  <text x="342" y="224" fill="#72A9D8" font-size="22" font-family="Arial, Helvetica, sans-serif" letter-spacing="5">VERIFY · VALIDATE · ASSURE</text>
+</svg>
