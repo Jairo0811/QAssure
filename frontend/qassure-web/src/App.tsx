@@ -1,5 +1,24 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faArrowRightToBracket,
+  faBars,
+  faBug,
+  faChartLine,
+  faCircleCheck,
+  faDiagramProject,
+  faFlaskVial,
+  faFolderOpen,
+  faGaugeHigh,
+  faListCheck,
+  faPlay,
+  faRightFromBracket,
+  faShieldHalved,
+  faTriangleExclamation,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons'
 import { createProject, getProjects, getRequirements, getRisks, getTestCases, login } from './api'
 import type { AuthSession, Project, Requirement, RiskItem, TestCase } from './api'
 import TestRunsPanel from './TestRunsPanel'
@@ -14,6 +33,25 @@ import './final.css'
 
 const SESSION_KEY = 'qassure.session'
 type View = 'overview' | 'projects' | 'requirements' | 'risks' | 'testCases' | 'testRuns' | 'defects' | 'traceability' | 'reports' | 'validation'
+
+type NavigationItem = {
+  view: View
+  label: string
+  icon: IconDefinition
+}
+
+const navigation: NavigationItem[] = [
+  { view: 'overview', label: 'Inicio', icon: faGaugeHigh },
+  { view: 'projects', label: 'Proyectos QA', icon: faFolderOpen },
+  { view: 'requirements', label: 'Requisitos', icon: faListCheck },
+  { view: 'risks', label: 'Análisis de riesgos', icon: faTriangleExclamation },
+  { view: 'testCases', label: 'Casos de prueba', icon: faFlaskVial },
+  { view: 'testRuns', label: 'Ciclos de prueba', icon: faPlay },
+  { view: 'defects', label: 'Defectos', icon: faBug },
+  { view: 'traceability', label: 'Trazabilidad', icon: faDiagramProject },
+  { view: 'reports', label: 'Reporte de calidad', icon: faChartLine },
+  { view: 'validation', label: 'Validación final', icon: faShieldHalved },
+]
 
 function readSession(): AuthSession | null {
   const raw = localStorage.getItem(SESSION_KEY)
@@ -78,24 +116,30 @@ function LoginScreen({ onAuthenticated }: { onAuthenticated: (session: AuthSessi
         <h1>Verifica. Valida. Asegura.</h1>
         <p>Planifica, ejecuta, traza y demuestra la calidad del software desde los requisitos hasta la preparación para el lanzamiento.</p>
         <div className="authSignals">
-          <span>✓ Pruebas basadas en riesgos</span>
-          <span>✓ Ciclo de defectos y re-pruebas</span>
-          <span>✓ Trazabilidad bidireccional</span>
-          <span>✓ Puertas de calidad</span>
-          <span>✓ Validación final</span>
+          <span><FontAwesomeIcon icon={faCircleCheck} /> Pruebas basadas en riesgos</span>
+          <span><FontAwesomeIcon icon={faCircleCheck} /> Ciclo de defectos y re-pruebas</span>
+          <span><FontAwesomeIcon icon={faCircleCheck} /> Trazabilidad bidireccional</span>
+          <span><FontAwesomeIcon icon={faCircleCheck} /> Puertas de calidad</span>
+          <span><FontAwesomeIcon icon={faCircleCheck} /> Validación final</span>
         </div>
       </section>
 
       <form className="loginCard" onSubmit={submit}>
-        <div>
-          <p className="eyebrow">QASSURE 1.0 RC</p>
-          <h2>Bienvenido de nuevo</h2>
-          <p className="muted">ISO-410 · Centro integral de QA</p>
+        <div className="loginHeading">
+          <span className="loginIcon"><FontAwesomeIcon icon={faShieldHalved} /></span>
+          <div>
+            <p className="eyebrow">QASSURE 1.0 RC</p>
+            <h2>Bienvenido de nuevo</h2>
+            <p className="muted">ISO-410 · Centro integral de QA</p>
+          </div>
         </div>
-        <label>Correo electrónico<input value={email} onChange={(event) => setEmail(event.target.value)} type="email" required /></label>
-        <label>Contraseña<input value={password} onChange={(event) => setPassword(event.target.value)} type="password" required /></label>
+        <label>Correo electrónico<input value={email} onChange={(event) => setEmail(event.target.value)} type="email" required autoComplete="username" /></label>
+        <label>Contraseña<input value={password} onChange={(event) => setPassword(event.target.value)} type="password" required autoComplete="current-password" /></label>
         {error && <p className="errorBox">{error}</p>}
-        <button className="primary full" disabled={busy}>{busy ? 'Iniciando sesión…' : 'Entrar a QAssure'}</button>
+        <button className="primary full loginAction" disabled={busy}>
+          <FontAwesomeIcon icon={faArrowRightToBracket} />
+          {busy ? 'Iniciando sesión…' : 'Entrar a QAssure'}
+        </button>
         <small className="muted">Administrador local: admin@qassure.local</small>
       </form>
     </main>
@@ -104,6 +148,7 @@ function LoginScreen({ onAuthenticated }: { onAuthenticated: (session: AuthSessi
 
 function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () => void }) {
   const [view, setView] = useState<View>('overview')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [selectedProjectId, setSelectedProjectId] = useState('')
   const [requirements, setRequirements] = useState<Requirement[]>([])
@@ -118,6 +163,7 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
   )
   const canLead = session.user.role === 'Admin' || session.user.role === 'QaLead'
   const userName = displayNameEs(session.user.displayName)
+  const currentNav = navigation.find((item) => item.view === view) ?? navigation[0]
 
   useEffect(() => { void loadProjects() }, [])
   useEffect(() => {
@@ -129,6 +175,13 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
     }
     void loadProjectData(selectedProjectId)
   }, [selectedProjectId])
+
+  useEffect(() => {
+    if (!sidebarOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = previousOverflow }
+  }, [sidebarOpen])
 
   async function loadProjects() {
     setLoading(true)
@@ -156,6 +209,11 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
     } catch (reason) {
       setMessage(errorMessageEs(reason, 'No se pudieron cargar los datos de QA del proyecto.'))
     }
+  }
+
+  function navigate(next: View) {
+    setView(next)
+    setSidebarOpen(false)
   }
 
   const titles: Record<View, string> = {
@@ -186,40 +244,67 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
 
   return (
     <div className="workspace">
-      <aside className="sidebar">
-        <button className="brand brandButton" style={{ border: 0, background: 'transparent', color: 'inherit', width: '100%', textAlign: 'left' }} onClick={() => setView('overview')} aria-label="Ir al panel principal">
-          <span className="brandMark">Q✓</span>
-          <div><strong>QAssure</strong><small>Quality Assurance</small></div>
+      <header className="mobileTopbar">
+        <button className="mobileMenuButton" onClick={() => setSidebarOpen(true)} aria-label="Abrir navegación">
+          <FontAwesomeIcon icon={faBars} />
         </button>
+        <button className="mobileBrand" onClick={() => navigate('overview')} aria-label="Ir al inicio">
+          <span className="brandMark">Q✓</span>
+          <span><strong>QAssure</strong><small>{currentNav.label}</small></span>
+        </button>
+        <span className="mobileAvatar" aria-label={userName}>{userName.slice(0, 1).toUpperCase()}</span>
+      </header>
+
+      {sidebarOpen && <button className="sidebarBackdrop" onClick={() => setSidebarOpen(false)} aria-label="Cerrar navegación" />}
+
+      <aside className={`sidebar ${sidebarOpen ? 'sidebarOpen' : ''}`}>
+        <div className="sidebarBrandRow">
+          <button className="brand brandButton" onClick={() => navigate('overview')} aria-label="Ir al panel principal">
+            <span className="brandMark">Q✓</span>
+            <div><strong>QAssure</strong><small>Quality Assurance</small></div>
+          </button>
+          <button className="mobileSidebarClose" onClick={() => setSidebarOpen(false)} aria-label="Cerrar navegación">
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
+        </div>
+
         <nav aria-label="Módulos de QAssure">
-          <Nav label="Inicio" active={view === 'overview'} onClick={() => setView('overview')} />
-          <Nav label="Proyectos QA" active={view === 'projects'} onClick={() => setView('projects')} />
-          <Nav label="Requisitos" active={view === 'requirements'} onClick={() => setView('requirements')} />
-          <Nav label="Análisis de riesgos" active={view === 'risks'} onClick={() => setView('risks')} />
-          <Nav label="Casos de prueba" active={view === 'testCases'} onClick={() => setView('testCases')} />
-          <Nav label="Ciclos de prueba" active={view === 'testRuns'} onClick={() => setView('testRuns')} />
-          <Nav label="Defectos" active={view === 'defects'} onClick={() => setView('defects')} />
-          <Nav label="Trazabilidad" active={view === 'traceability'} onClick={() => setView('traceability')} />
-          <Nav label="Reporte de calidad" active={view === 'reports'} onClick={() => setView('reports')} />
-          <Nav label="Validación final" active={view === 'validation'} onClick={() => setView('validation')} />
+          {navigation.map((item) => (
+            <Nav
+              key={item.view}
+              label={item.label}
+              icon={item.icon}
+              active={view === item.view}
+              onClick={() => navigate(item.view)}
+            />
+          ))}
         </nav>
+
+        <div className="sidebarQualityHint">
+          <FontAwesomeIcon icon={faShieldHalved} />
+          <div><strong>QA Command Center</strong><small>7 fases · ciclo completo</small></div>
+        </div>
+
         <div className="userCard">
           <span className="avatar">{userName.slice(0, 1).toUpperCase()}</span>
           <div><strong>{userName}</strong><small>{labelEs(session.user.role)}</small></div>
-          <button onClick={onLogout} title="Cerrar sesión">↗</button>
+          <button onClick={onLogout} title="Cerrar sesión" aria-label="Cerrar sesión"><FontAwesomeIcon icon={faRightFromBracket} /></button>
         </div>
       </aside>
 
       <main className="content">
         {view !== 'overview' && (
           <header className="contentHeader">
-            <div><p className="eyebrow">ISO-410 · {phaseByView[view]}</p><h2>{titles[view]}</h2></div>
-            <span className="phaseBadge">Verifica · Valida · Asegura</span>
+            <div className="contentTitleGroup">
+              <span className="contentTitleIcon"><FontAwesomeIcon icon={currentNav.icon} /></span>
+              <div><p className="eyebrow">ISO-410 · {phaseByView[view]}</p><h2>{titles[view]}</h2></div>
+            </div>
+            <span className="phaseBadge"><FontAwesomeIcon icon={faShieldHalved} /> Verifica · Valida · Asegura</span>
           </header>
         )}
 
         {message && <div className="notice">{message}</div>}
-        {loading && <div className="notice">Cargando espacio de trabajo de QA…</div>}
+        {loading && <div className="notice loadingNotice"><FontAwesomeIcon icon={faGaugeHigh} /> Cargando espacio de trabajo de QA…</div>}
 
         {view === 'overview' && (
           <QaDashboard
@@ -231,14 +316,14 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
             risks={risks}
             testCases={testCases}
             onProjectChange={setSelectedProjectId}
-            onNavigate={(target) => setView(target)}
+            onNavigate={(target) => navigate(target)}
           />
         )}
         {view === 'projects' && (
           <ProjectsPanel
             projects={projects}
             selectedProjectId={selectedProjectId}
-            onSelect={(id) => { setSelectedProjectId(id); setView('requirements') }}
+            onSelect={(id) => { setSelectedProjectId(id); navigate('requirements') }}
             onCreated={async (payload) => {
               try {
                 const item = await createProject(session.accessToken, payload)
@@ -264,6 +349,12 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
   )
 }
 
-function Nav({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
-  return <button className={active ? 'navActive' : ''} onClick={onClick}>{label}</button>
+function Nav({ label, icon, active, onClick }: { label: string; icon: IconDefinition; active: boolean; onClick: () => void }) {
+  return (
+    <button className={active ? 'navActive' : ''} onClick={onClick} aria-current={active ? 'page' : undefined}>
+      <span className="navIcon"><FontAwesomeIcon icon={icon} /></span>
+      <span className="navLabel">{label}</span>
+      {active && <span className="navActiveMarker" />}
+    </button>
+  )
 }
