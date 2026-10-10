@@ -11,7 +11,6 @@ import QaDashboard from './QaDashboard'
 import { ProjectsPanel, RequirementsPanel, RisksPanel, TestCasesPanel } from './CorePanels'
 import { displayNameEs, errorMessageEs, labelEs } from './locale'
 import './final.css'
-import './mockup.css'
 
 const SESSION_KEY = 'qassure.session'
 type View = 'overview' | 'projects' | 'requirements' | 'risks' | 'testCases' | 'testRuns' | 'defects' | 'traceability' | 'reports' | 'validation'
@@ -188,7 +187,7 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
   return (
     <div className="workspace">
       <aside className="sidebar">
-        <button className="brand brandButton" onClick={() => setView('overview')} aria-label="Ir al panel principal">
+        <button className="brand brandButton" style={{ border: 0, background: 'transparent', color: 'inherit', width: '100%', textAlign: 'left' }} onClick={() => setView('overview')} aria-label="Ir al panel principal">
           <span className="brandMark">Q✓</span>
           <div><strong>QAssure</strong><small>Quality Assurance</small></div>
         </button>
