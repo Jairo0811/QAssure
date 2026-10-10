@@ -1,0 +1,837 @@
+/* Font Awesome + responsive polish layer */
+
+:focus-visible {
+  outline: 2px solid rgba(67, 224, 239, .92);
+  outline-offset: 3px;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.brandButton {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebarBrandRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar nav button::before {
+  content: none !important;
+  display: none !important;
+}
+
+.sidebar nav button {
+  min-height: 44px;
+  padding: 9px 11px;
+  gap: 11px;
+}
+
+.navIcon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 24px;
+  color: #66bee9;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.navIcon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.navLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navActiveMarker {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #47e7db;
+  box-shadow: 0 0 12px rgba(71, 231, 219, .72);
+}
+
+.sidebar nav button:hover .navIcon,
+.sidebar nav .navActive .navIcon {
+  color: #a5fbff;
+  background: rgba(38, 168, 220, .12);
+  border-color: rgba(68, 203, 238, .16);
+}
+
+.sidebar nav button:hover .navIcon {
+  transform: translateX(1px);
+}
+
+.sidebarQualityHint {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(63, 174, 226, .11);
+  border-radius: 13px;
+  color: #55dce2;
+  background: linear-gradient(145deg, rgba(6, 48, 75, .56), rgba(4, 26, 48, .46));
+}
+
+.sidebarQualityHint > svg {
+  width: 18px;
+  height: 18px;
+  justify-self: center;
+}
+
+.sidebarQualityHint strong,
+.sidebarQualityHint small {
+  display: block;
+}
+
+.sidebarQualityHint strong {
+  color: #d7f8ff;
+  font-size: .72rem;
+}
+
+.sidebarQualityHint small {
+  margin-top: 2px;
+  color: #5d829d;
+  font-size: .61rem;
+}
+
+.mobileTopbar,
+.mobileSidebarClose,
+.sidebarBackdrop {
+  display: none;
+}
+
+.contentTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.contentTitleIcon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  color: #75e9ef;
+  border: 1px solid rgba(64, 195, 231, .18);
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(18, 100, 143, .22), rgba(9, 48, 77, .2));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .035), 0 12px 28px rgba(0, 0, 0, .13);
+}
+
+.contentTitleIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.phaseBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.phaseBadge svg {
+  width: 12px;
+  height: 12px;
+}
+
+.loadingNotice {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.loginHeading {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.loginHeading h2,
+.loginHeading p {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.loginIcon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  color: #71f0e6;
+  border: 1px solid rgba(67, 210, 228, .2);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(20, 110, 153, .26), rgba(11, 62, 91, .22));
+}
+
+.loginIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.loginAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.authSignals span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.authSignals svg {
+  color: #62e7c4;
+  font-size: .76rem;
+}
+
+/* Global visual refinement */
+.panel,
+.qaGlassCard,
+.qaKpiCard,
+.requirementCard,
+.testCaseCard,
+.riskCard,
+.defectCard,
+.validationCard,
+.runItem,
+.executionCard {
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.qaKpiCard:hover,
+.requirementCard:hover,
+.testCaseCard:hover,
+.riskCard:hover,
+.defectCard:hover,
+.validationCard:hover,
+.runItem:hover {
+  transform: translateY(-2px);
+  border-color: rgba(74, 207, 238, .25) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .19);
+}
+
+button {
+  min-height: 38px;
+}
+
+.sidebar button,
+.mobileTopbar button,
+.qaKpiCard,
+.qaEvidenceTile,
+.qaLifecycleFlow button,
+.linkButton,
+.qaCardLink {
+  min-height: 0;
+}
+
+input,
+select,
+textarea,
+.primary {
+  min-height: 44px;
+}
+
+textarea {
+  min-height: 92px;
+}
+
+.panelTitle {
+  flex-wrap: wrap;
+}
+
+.matrixTable,
+.qaTraceTable {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(62, 172, 218, .38) rgba(4, 25, 45, .5);
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 18, 34, .42);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(54, 151, 197, .36);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(57, 190, 224, .5);
+  background-clip: padding-box;
+}
+
+@media (max-width: 1180px) {
+  .content {
+    padding-inline: 24px;
+  }
+
+  .contentHeader {
+    gap: 14px;
+  }
+
+  .phaseBadge {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 920px) {
+  .workspace {
+    display: block;
+    min-height: 100dvh;
+  }
+
+  .mobileTopbar {
+    position: sticky;
+    top: 0;
+    z-index: 44;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 38px;
+    align-items: center;
+    gap: 10px;
+    min-height: 64px;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(63, 166, 220, .14);
+    background: rgba(3, 17, 34, .9);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .2);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobileMenuButton,
+  .mobileAvatar,
+  .mobileSidebarClose {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    color: #a8e7f6;
+    border: 1px solid rgba(72, 178, 222, .15);
+    border-radius: 11px;
+    background: rgba(9, 48, 75, .55);
+  }
+
+  .mobileMenuButton svg,
+  .mobileSidebarClose svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mobileBrand {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0;
+    color: inherit;
+    text-align: left;
+    border: 0;
+    background: transparent;
+  }
+
+  .mobileBrand .brandMark {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 10px;
+    font-size: .72rem;
+  }
+
+  .mobileBrand .brandMark::before {
+    inset: 5px;
+    border-width: 3px;
+  }
+
+  .mobileBrand strong,
+  .mobileBrand small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileBrand strong {
+    color: #eefaff;
+    font-size: .88rem;
+  }
+
+  .mobileBrand small {
+    margin-top: 2px;
+    color: #6d93ae;
+    font-size: .65rem;
+  }
+
+  .mobileAvatar {
+    color: #031827;
+    border: 0;
+    background: linear-gradient(145deg, #44e3cc, #38bdf8);
+    font-size: .78rem;
+    font-weight: 900;
+  }
+
+  .sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0;
+    z-index: 60;
+    width: min(316px, 88vw) !important;
+    height: 100dvh !important;
+    padding: 18px 16px !important;
+    transform: translateX(-106%);
+    transition: transform .24s cubic-bezier(.2, .8, .2, 1);
+    overflow-y: auto;
+    box-shadow: 24px 0 70px rgba(0, 0, 0, .48);
+  }
+
+  .sidebar.sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebar::after {
+    display: block !important;
+  }
+
+  .sidebarBrandRow {
+    justify-content: space-between;
+  }
+
+  .sidebarBrandRow .brand {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .mobileSidebarClose {
+    display: grid;
+    flex: 0 0 38px;
+  }
+
+  .sidebar nav {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 5px !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  .sidebar nav button {
+    width: 100%;
+    min-height: 44px;
+    flex: none !important;
+    padding: 10px 11px !important;
+  }
+
+  .sidebarQualityHint,
+  .userCard {
+    display: grid !important;
+  }
+
+  .sidebarQualityHint {
+    margin-top: auto;
+  }
+
+  .userCard {
+    margin-top: 10px;
+  }
+
+  .sidebarBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: rgba(1, 8, 17, .7);
+    backdrop-filter: blur(3px);
+  }
+
+  .content {
+    width: 100%;
+    max-width: none;
+    padding: 20px 16px 48px !important;
+  }
+
+  .contentHeader {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .contentTitleGroup {
+    min-width: 0;
+  }
+
+  .contentTitleGroup h2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .phaseBadge {
+    display: none !important;
+  }
+
+  .qaCommandBar {
+    position: relative;
+    top: 0;
+  }
+
+  .qaSearchWrap {
+    width: 100% !important;
+  }
+
+  .qaHero {
+    min-height: auto;
+  }
+
+  .qaLifecycleStrip {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 720px) {
+  .authShell {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 34px;
+    padding: 34px 20px;
+  }
+
+  .authBrand {
+    width: 100%;
+  }
+
+  .authBrand h1 {
+    max-width: 620px;
+    font-size: clamp(3rem, 13vw, 4.5rem);
+  }
+
+  .authBrand > p:not(.eyebrow) {
+    font-size: 1rem;
+  }
+
+  .authSignals {
+    margin-top: 22px;
+  }
+
+  .loginCard {
+    width: 100%;
+    max-width: 560px;
+    align-self: center;
+    padding: 26px;
+  }
+
+  .contentHeader {
+    min-height: 52px;
+    margin-bottom: 14px;
+  }
+
+  .contentTitleIcon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .contentHeader h2 {
+    font-size: clamp(1.35rem, 6vw, 1.8rem);
+  }
+
+  .qaHero {
+    padding: 20px !important;
+    border-radius: 17px;
+  }
+
+  .qaHeroCopy h1 {
+    font-size: clamp(2.35rem, 11vw, 3.35rem) !important;
+    line-height: .98;
+  }
+
+  .qaHeroCopy > p:not(.eyebrow) {
+    max-width: 100%;
+  }
+
+  .qaHeroChips {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 7px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scroll-snap-type: x proximity;
+  }
+
+  .qaHeroChips span {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .qaCurrentProject {
+    padding: 17px;
+  }
+
+  .qaKpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .qaKpiCard {
+    min-height: 124px;
+    grid-template-columns: 36px minmax(0, 1fr) !important;
+    grid-template-areas: 'icon text' 'donut donut';
+    align-items: center;
+    gap: 9px;
+  }
+
+  .qaKpiIcon {
+    grid-area: icon;
+  }
+
+  .qaKpiText {
+    grid-area: text;
+  }
+
+  .qaKpiCard .qaDonut {
+    grid-area: donut;
+    justify-self: start;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .qaMiddleGrid,
+  .qaBottomGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .qaExecutionChart,
+  .qaTracePreview {
+    grid-column: auto !important;
+  }
+
+  .qaGlassCard {
+    min-width: 0;
+  }
+
+  .qaTraceTable {
+    overflow-x: auto;
+  }
+
+  .qaTraceTable .head,
+  .qaTraceTable .row {
+    min-width: 560px;
+  }
+
+  .matrixTable {
+    overflow-x: auto;
+    margin-inline: -4px;
+  }
+
+  .matrixHead,
+  .matrixRow {
+    min-width: 780px !important;
+  }
+
+  .projectPicker {
+    padding: 17px;
+  }
+
+  .projectPicker select {
+    width: 100%;
+  }
+
+  .panel,
+  .formPanel {
+    padding: 18px;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr !important;
+  }
+
+  .gateChecks,
+  .validationGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .qaLifecycleFlow {
+    gap: 4px;
+    padding-bottom: 8px;
+    scroll-snap-type: x proximity;
+  }
+
+  .qaLifecycleFlow button {
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 520px) {
+  .mobileTopbar {
+    grid-template-columns: 40px minmax(0, 1fr) 34px;
+    padding-inline: 11px;
+  }
+
+  .mobileAvatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .content {
+    padding: 16px 12px 42px !important;
+  }
+
+  .contentHeader {
+    align-items: flex-start;
+  }
+
+  .contentTitleIcon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .qaCommandBar {
+    margin-top: 0;
+  }
+
+  .qaSearchWrap {
+    min-height: 46px;
+    border-radius: 13px;
+  }
+
+  .qaSearchWrap input {
+    min-width: 0;
+    font-size: .84rem;
+  }
+
+  .qaHero {
+    padding: 18px 16px !important;
+  }
+
+  .qaHeroCopy h1 {
+    font-size: clamp(2.2rem, 13vw, 2.8rem) !important;
+  }
+
+  .qaKpiGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .qaKpiCard {
+    grid-template-columns: 42px minmax(0, 1fr) 62px !important;
+    grid-template-areas: 'icon text donut';
+    min-height: 96px;
+    padding: 15px !important;
+  }
+
+  .qaKpiCard .qaDonut {
+    grid-area: donut;
+    justify-self: end;
+    width: 58px !important;
+    height: 58px !important;
+  }
+
+  .qaEvidenceGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .qaLifecycleStrip {
+    padding: 15px;
+  }
+
+  .loginCard {
+    padding: 22px 18px;
+    border-radius: 20px;
+  }
+
+  .loginHeading {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .loginIcon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .authSignals {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 7px;
+  }
+
+  .authSignals span {
+    flex: 0 0 auto;
+  }
+
+  .panelTitle {
+    align-items: flex-start;
+  }
+
+  .listItem {
+    grid-template-columns: 62px minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .contentTitleIcon {
+    display: none;
+  }
+
+  .qaKpiCard {
+    grid-template-columns: 36px minmax(0, 1fr) 52px !important;
+  }
+
+  .qaKpiCard .qaDonut {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .sidebar {
+    width: 92vw !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

@@ -4,6 +4,7 @@ import App from './App'
 import './styles.css'
 import './phase2.css'
 import './mockup.css'
+import './responsive.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
