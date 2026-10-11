@@ -5,6 +5,7 @@ import './styles.css'
 import './phase2.css'
 import './mockup.css'
 import './responsive.css'
+import './brand.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
