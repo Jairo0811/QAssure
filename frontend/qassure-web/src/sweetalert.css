@@ -1,0 +1,78 @@
+.qassure-swal-popup {
+  border: 1px solid rgba(66, 211, 255, 0.22) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42), 0 0 40px rgba(0, 191, 255, 0.08) !important;
+  backdrop-filter: blur(18px);
+}
+
+.qassure-swal-title {
+  color: #f4fbff !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+.qassure-swal-text,
+.qassure-swal-popup .swal2-input-label {
+  color: #9fc1d7 !important;
+}
+
+.qassure-swal-input,
+.qassure-swal-popup .swal2-input,
+.qassure-swal-popup .swal2-textarea,
+.qassure-swal-popup .swal2-select {
+  width: calc(100% - 2.5rem) !important;
+  margin: 1rem 1.25rem 0 !important;
+  border: 1px solid rgba(91, 190, 255, 0.22) !important;
+  border-radius: 12px !important;
+  background: #061526 !important;
+  color: #eef8ff !important;
+  box-shadow: none !important;
+}
+
+.qassure-swal-popup .swal2-input:focus,
+.qassure-swal-popup .swal2-textarea:focus,
+.qassure-swal-popup .swal2-select:focus {
+  border-color: #3adbd4 !important;
+  box-shadow: 0 0 0 3px rgba(58, 219, 212, 0.12) !important;
+}
+
+.qassure-swal-confirm,
+.qassure-swal-cancel {
+  min-height: 42px;
+  padding: 0.7rem 1.2rem;
+  border: 0;
+  border-radius: 11px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.qassure-swal-confirm {
+  background: linear-gradient(135deg, #35dfcf, #42c9ff);
+  color: #031522;
+  box-shadow: 0 10px 24px rgba(38, 205, 218, 0.18);
+}
+
+.qassure-swal-cancel {
+  margin-right: 0.65rem;
+  border: 1px solid rgba(147, 197, 253, 0.18);
+  background: #0b2942;
+  color: #cde7f7;
+}
+
+.qassure-swal-confirm:hover,
+.qassure-swal-cancel:hover {
+  transform: translateY(-1px);
+}
+
+.qassure-swal-popup .swal2-validation-message {
+  background: rgba(255, 89, 118, 0.1) !important;
+  color: #ff9aad !important;
+}
+
+@media (max-width: 640px) {
+  .qassure-swal-popup {
+    width: calc(100vw - 1.5rem) !important;
+    padding: 1.25rem !important;
+  }
+}
