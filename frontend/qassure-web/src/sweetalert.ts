@@ -34,7 +34,7 @@ export async function qaTextPrompt(options: {
     customClass,
     background: '#071b2e',
     color: '#eef8ff',
-    inputValidator: (value) => value.trim().length < 2 ? 'Escribe al menos 2 caracteres.' : undefined,
+    inputValidator: (value: string) => value.trim().length < 2 ? 'Escribe al menos 2 caracteres.' : undefined,
   })
 
   if (!result.isConfirmed) return null
@@ -63,7 +63,7 @@ export async function qaSelect(options: {
     customClass,
     background: '#071b2e',
     color: '#eef8ff',
-    inputValidator: (value) => !value ? 'Selecciona una opción.' : undefined,
+    inputValidator: (value: string) => !value ? 'Selecciona una opción.' : undefined,
   })
 
   if (!result.isConfirmed) return null
