@@ -78,6 +78,8 @@ public sealed class Defect : Entity
             throw new InvalidOperationException("Only resolved defects can be verified by re-test.");
         if (retestExecutionId == Guid.Empty)
             throw new ArgumentException("Re-test execution is required.", nameof(retestExecutionId));
+        if (retestExecutionId == ExecutionId)
+            throw new InvalidOperationException("The original failed execution cannot be used as re-test evidence.");
 
         RetestExecutionId = retestExecutionId;
         Status = passed ? DefectStatus.Closed : DefectStatus.Reopened;
