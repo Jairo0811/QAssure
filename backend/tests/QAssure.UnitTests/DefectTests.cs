@@ -39,4 +39,17 @@ public sealed class DefectTests
         var defect = Create();
         Assert.Throws<InvalidOperationException>(() => defect.VerifyRetest(Guid.NewGuid(), true));
     }
+
+    [Fact]
+    public void Original_failed_execution_cannot_be_reused_as_retest_evidence()
+    {
+        var defect = Create();
+        defect.Resolve("Candidate fix deployed.");
+
+        var exception = Assert.Throws<InvalidOperationException>(() => defect.VerifyRetest(defect.ExecutionId, false));
+
+        Assert.Contains("original failed execution", exception.Message, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(DefectStatus.Resolved, defect.Status);
+        Assert.Null(defect.RetestExecutionId);
+    }
 }
