@@ -1,0 +1,115 @@
+/* QAssure official branding layer.
+   Uses the transparent PNG stored in /public/qassure-logo.png and replaces
+   the previous CSS/text placeholder marks without changing application logic. */
+
+.brandMark,
+.qaHeroLogo,
+.qaEmptyMark {
+  color: transparent !important;
+  font-size: 0 !important;
+  text-indent: -9999px;
+  overflow: hidden;
+  background-color: transparent !important;
+  background-image: url('/qassure-logo.png') !important;
+  background-repeat: no-repeat !important;
+  border: 0 !important;
+}
+
+/* Compact product mark: crop the upper emblem from the complete logo asset. */
+.brandMark {
+  display: block;
+  flex: 0 0 auto;
+  background-size: 185% auto !important;
+  background-position: center top !important;
+  box-shadow: 0 0 24px rgba(23, 177, 255, .16) !important;
+}
+
+.brandMark::before,
+.brandMark::after,
+.qaHeroLogo::before,
+.qaHeroLogo::after,
+.qaEmptyMark::before,
+.qaEmptyMark::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Login gets the complete QAssure lockup: emblem + wordmark. */
+.authBrand .brandMarkLarge {
+  width: clamp(230px, 29vw, 360px) !important;
+  height: clamp(172px, 21.75vw, 270px) !important;
+  margin: 0 0 18px;
+  border-radius: 0 !important;
+  background-size: contain !important;
+  background-position: left center !important;
+  filter: drop-shadow(0 20px 34px rgba(0, 136, 255, .22));
+  box-shadow: none !important;
+}
+
+/* Dashboard hero and empty state use the emblem only, keeping the UI uncluttered. */
+.qaHeroLogo {
+  width: 190px;
+  height: 190px;
+  justify-self: center;
+  background-size: 185% auto !important;
+  background-position: center top !important;
+  filter: drop-shadow(0 18px 34px rgba(0, 156, 255, .28));
+}
+
+.qaHeroLogo > *,
+.qaEmptyMark > * {
+  display: none !important;
+}
+
+.qaEmptyMark {
+  width: 108px !important;
+  height: 108px !important;
+  margin-bottom: 14px !important;
+  background-size: 185% auto !important;
+  background-position: center top !important;
+  filter: drop-shadow(0 14px 28px rgba(0, 164, 255, .24));
+}
+
+/* Avoid the logo being squeezed in navigation rows. */
+.brandButton,
+.mobileBrand {
+  min-width: 0;
+}
+
+.brandButton .brandMark {
+  flex-shrink: 0;
+}
+
+/* The transparent asset should remain crisp and proportional on high-DPI screens. */
+.brandMark,
+.qaHeroLogo,
+.qaEmptyMark {
+  image-rendering: auto;
+  background-origin: border-box;
+}
+
+@media (max-width: 920px) {
+  .mobileBrand .brandMark {
+    background-size: 185% auto !important;
+    background-position: center top !important;
+    box-shadow: 0 0 18px rgba(23, 177, 255, .14) !important;
+  }
+
+  .authBrand .brandMarkLarge {
+    width: min(310px, 72vw) !important;
+    height: min(232px, 54vw) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .authBrand .brandMarkLarge {
+    width: min(260px, 76vw) !important;
+    height: min(195px, 57vw) !important;
+    margin-bottom: 10px;
+  }
+
+  .qaEmptyMark {
+    width: 88px !important;
+    height: 88px !important;
+  }
+}
