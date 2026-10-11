@@ -36,7 +36,9 @@ builder.Services.AddCors(options => options.AddPolicy("frontend", policy => poli
 var app = builder.Build();
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
+
 app.UseCors("frontend");
 app.UseAuthentication();
 app.UseAuthorization();
