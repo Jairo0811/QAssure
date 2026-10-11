@@ -131,6 +131,28 @@
   line-height: 1.65;
 }
 
+.runtimeRecoveryError {
+  display: block;
+  width: min(760px, 92vw);
+  max-height: 150px;
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 108, 130, .28);
+  border-radius: 10px;
+  background: rgba(78, 11, 28, .34);
+  color: #ffb6c2;
+  font: 600 .82rem/1.5 ui-monospace, SFMono-Regular, Consolas, monospace;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.runtimeRecoveryActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
 .runtimeRecovery button {
   margin-top: 8px;
   min-height: 46px;
@@ -142,6 +164,13 @@
   font-weight: 850;
   cursor: pointer;
   box-shadow: 0 14px 34px rgba(31, 197, 213, .16);
+}
+
+.runtimeRecovery button.secondary {
+  color: #c9e8f5;
+  border: 1px solid rgba(103, 187, 229, .24);
+  background: rgba(8, 37, 63, .8);
+  box-shadow: none;
 }
 
 @media (max-width: 920px) {
@@ -167,5 +196,13 @@
   .qaEmptyMark {
     width: 88px !important;
     height: 88px !important;
+  }
+
+  .runtimeRecoveryActions {
+    width: 100%;
+  }
+
+  .runtimeRecoveryActions button {
+    width: min(100%, 320px);
   }
 }
