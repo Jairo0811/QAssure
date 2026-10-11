@@ -2,11 +2,11 @@
   "profiles": {
     "QAssure.Api": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:56815;http://localhost:56816"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }
