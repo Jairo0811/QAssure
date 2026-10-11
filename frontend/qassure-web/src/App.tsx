@@ -212,6 +212,7 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
   }
 
   function navigate(next: View) {
+    setMessage('')
     setView(next)
     setSidebarOpen(false)
   }
