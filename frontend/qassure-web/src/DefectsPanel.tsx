@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { createDefect, getDefects, getTestRun, getTestRuns, resolveDefect, startDefect, verifyDefectRetest } from './api'
 import type { Defect, Project, TestExecution } from './api'
-import { errorMessageEs, labelEs } from './locale'
+import { errorMessageEs, formatDateEs, labelEs } from './locale'
+import { qaSelect, qaTextPrompt, qaToast } from './sweetalert'
 
 interface Props {
   token: string
@@ -78,9 +79,88 @@ export default function DefectsPanel({ token, projects, selectedProject, selecte
       setDescription('')
       setSteps('')
       setMessage('Defecto registrado a partir de la evidencia de ejecución.')
+      qaToast('Defecto registrado correctamente')
       await load()
     } catch (reason) {
       setMessage(errorMessageEs(reason, 'No se pudo crear el defecto.'))
+      qaToast('No se pudo registrar el defecto', 'error')
+    }
+  }
+
+  async function beginWork(defect: Defect) {
+    const who = await qaTextPrompt({
+      title: `Iniciar trabajo · ${defect.code}`,
+      label: 'Responsable del defecto',
+      initialValue: defect.assignedTo || 'Administrador de QAssure',
+      placeholder: 'Nombre del responsable',
+      confirmText: 'Iniciar trabajo',
+    })
+    if (!who) return
+
+    try {
+      await startDefect(token, selectedProjectId, defect.id, who)
+      qaToast(`${defect.code} está en progreso`)
+      await load()
+    } catch (reason) {
+      setMessage(errorMessageEs(reason, 'No se pudo iniciar el trabajo del defecto.'))
+      qaToast('No se pudo iniciar el trabajo', 'error')
+    }
+  }
+
+  async function resolveItem(defect: Defect) {
+    const resolution = await qaTextPrompt({
+      title: `Resolver ${defect.code}`,
+      label: 'Describe la corrección aplicada',
+      initialValue: defect.resolution,
+      placeholder: 'Corrección, commit, validación técnica…',
+      textarea: true,
+      confirmText: 'Marcar resuelto',
+    })
+    if (!resolution) return
+
+    try {
+      await resolveDefect(token, selectedProjectId, defect.id, resolution)
+      qaToast(`${defect.code} marcado como resuelto`)
+      await load()
+    } catch (reason) {
+      setMessage(errorMessageEs(reason, 'No se pudo resolver el defecto.'))
+      qaToast('No se pudo resolver el defecto', 'error')
+    }
+  }
+
+  async function verifyRetest(defect: Defect) {
+    const candidates = finalExecutions.filter(
+      (execution) => execution.testCaseId === defect.testCaseId && execution.id !== defect.executionId,
+    )
+
+    if (!candidates.length) {
+      qaToast('No hay re-pruebas disponibles para este caso', 'warning')
+      setMessage('No hay una ejecución de re-prueba disponible para este caso. Ejecuta el caso nuevamente antes de verificar el defecto.')
+      return
+    }
+
+    const options = Object.fromEntries(candidates.map((execution) => [
+      execution.id,
+      `${execution.testCaseCode} · ${labelEs(execution.result)} · ${execution.executedAtUtc ? formatDateEs(execution.executedAtUtc) : 'Sin fecha'}`,
+    ]))
+
+    const retestExecutionId = await qaSelect({
+      title: `Verificar re-prueba · ${defect.code}`,
+      label: 'Selecciona la ejecución que valida la corrección',
+      options,
+      initialValue: candidates[0].id,
+      confirmText: 'Verificar re-prueba',
+    })
+    if (!retestExecutionId) return
+
+    try {
+      const updated = await verifyDefectRetest(token, selectedProjectId, defect.id, retestExecutionId)
+      if (updated.status === 'Closed') qaToast(`${defect.code} cerrado por re-prueba aprobada`)
+      else qaToast(`${defect.code} reabierto: la re-prueba no aprobó`, 'warning')
+      await load()
+    } catch (reason) {
+      setMessage(errorMessageEs(reason, 'No se pudo verificar la re-prueba.'))
+      qaToast('No se pudo verificar la re-prueba', 'error')
     }
   }
 
@@ -136,48 +216,17 @@ export default function DefectsPanel({ token, projects, selectedProject, selecte
                 </details>
                 <footer className="inlineActions">
                   {(defect.status === 'New' || defect.status === 'Reopened') && (
-                    <button
-                      className="linkButton"
-                      onClick={() => {
-                        const who = prompt('Asignar a')
-                        if (who) void startDefect(token, selectedProjectId, defect.id, who).then(load)
-                      }}
-                    >
+                    <button className="linkButton" onClick={() => void beginWork(defect)}>
                       Iniciar trabajo
                     </button>
                   )}
                   {canLead && defect.status !== 'Closed' && defect.status !== 'Resolved' && (
-                    <button
-                      className="linkButton"
-                      onClick={() => {
-                        const text = prompt('Resolución')
-                        if (text) void resolveDefect(token, selectedProjectId, defect.id, text).then(load)
-                      }}
-                    >
+                    <button className="linkButton" onClick={() => void resolveItem(defect)}>
                       Resolver
                     </button>
                   )}
                   {defect.status === 'Resolved' && (
-                    <button
-                      className="linkButton"
-                      onClick={() => {
-                        const candidates = finalExecutions.filter(
-                          (execution) => execution.testCaseId === defect.testCaseId && execution.id !== defect.executionId,
-                        )
-                        const latest = candidates[0]
-                        if (!latest) {
-                          setMessage('No hay una ejecución de re-prueba disponible para este caso. Ejecuta el caso nuevamente antes de verificar el defecto.')
-                          return
-                        }
-
-                        const when = latest.executedAtUtc ? new Date(latest.executedAtUtc).toLocaleString() : 'sin fecha'
-                        const id = prompt(
-                          `ID de ejecución de re-prueba (${candidates.length} candidatas). Más reciente: ${labelEs(latest.result)} · ${when}`,
-                          latest.id,
-                        )
-                        if (id) void verifyDefectRetest(token, selectedProjectId, defect.id, id).then(load)
-                      }}
-                    >
+                    <button className="linkButton" onClick={() => void verifyRetest(defect)}>
                       Verificar re-prueba
                     </button>
                   )}
