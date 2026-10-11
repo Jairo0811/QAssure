@@ -7,7 +7,7 @@
 *Verify. Validate. Assure.*
 
 <img src="https://img.shields.io/badge/UNAPEC-ISO--410-003B70?style=for-the-badge" alt="UNAPEC ISO-410" />
-<img src="https://img.shields.io/badge/Estado-1.0%20Release%20Candidate-22C55E?style=for-the-badge" alt="QAssure 1.0 Release Candidate" />
+<img src="https://img.shields.io/badge/Estado-1.0%20Congelado-22C55E?style=for-the-badge" alt="QAssure 1.0 congelado" />
 <img src="https://img.shields.io/badge/UI-Español-EF4444?style=for-the-badge" alt="Interfaz en español" />
 
 <br/><br/>
@@ -26,8 +26,6 @@
 
 Centraliza el ciclo completo de QA en un solo flujo: requisitos, análisis de riesgos, diseño y ejecución de pruebas, defectos, re-test, regresión, trazabilidad, métricas de calidad, quality gates y evidencia de validación final.
 
-La aplicación presenta actualmente un **centro de control QA moderno**, con dashboard principal, navegación por módulos, indicadores de calidad y una experiencia visual unificada. La interfaz está **completamente en español**, mientras los contratos internos de la API permanecen estables.
-
 ```text
 Proyecto
    ↓
@@ -39,6 +37,14 @@ Requisito → Riesgo → Caso de prueba → Ciclo de prueba → Ejecución
                                                   ↓
 Trazabilidad → Reporte de calidad → Validación final → Gate de liberación
 ```
+
+---
+
+## 🧊 Estado del proyecto
+
+**QAssure 1.0 queda congelado como entrega académica estable.** Las fases funcionales 0–7 están implementadas y el repositorio queda cerrado a nuevas funcionalidades. A partir de este punto solo deberían aceptarse correcciones críticas, de seguridad o de compatibilidad que afecten la ejecución de la versión congelada.
+
+La congelación no fuerza un quality gate verde: cada proyecto evaluado dentro de QAssure puede seguir resultando `Ready`, `Conditional` o `Blocked` según su evidencia real.
 
 ---
 
@@ -62,87 +68,48 @@ Trazabilidad → Reporte de calidad → Validación final → Gate de liberació
 
 ---
 
-## 🧭 Continuidad académica
-
-### 🎓 Puente interinstitucional ITLA → UNAPEC
-
-Los tres integrantes del equipo tienen trayectoria académica documentada tanto en **ITLA** como en **UNAPEC**.
-
-| Integrante | Matrícula ITLA | Matrícula UNAPEC |
-|---|---:|---:|
-| Albert Mateo Tejada | **2018-6302** | **A00107388** |
-| Francisco Daniel Lora Gonzalez | **2019-7800** | **A00114255** |
-| Francis Jairo Matias Rosario | **2015-2984** | **A00115261** |
-
-Esta tabla documenta únicamente la continuidad institucional de cada integrante. **No implica que hayan cursado las mismas asignaturas ni que hayan coincidido académicamente entre sí en ITLA.**
-
----
-
 ## 🧱 Stack tecnológico
 
 ### ⚙️ Backend / API
-
-<p>
-  <img src="https://skillicons.dev/icons?i=cs,dotnet" alt="C# y .NET" />
-  <img src="https://img.shields.io/badge/ASP.NET%20Core-10-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt="ASP.NET Core 10" />
-  <img src="https://img.shields.io/badge/EF%20Core-10-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt="Entity Framework Core 10" />
-  <img src="https://img.shields.io/badge/OpenAPI-Contrato%20HTTP-85EA2D?style=flat-square&logo=swagger&logoColor=black" alt="OpenAPI" />
-</p>
 
 - .NET 10 / ASP.NET Core Web API;
 - C#;
 - Entity Framework Core 10;
 - Clean Architecture;
-- JWT Bearer;
-- autorización basada en roles;
+- JWT Bearer y autorización basada en roles;
 - OpenAPI.
 
 ### 🎨 Frontend
 
-<p>
-  <img src="https://skillicons.dev/icons?i=react,ts,vite" alt="React, TypeScript y Vite" />
-</p>
-
 - React 19;
 - TypeScript 5.9;
 - Vite 7;
+- Font Awesome;
+- **SweetAlert2 11** para diálogos, prompts y feedback contextual;
 - SPA conectada a la API;
 - dashboard tipo **QA command center**;
 - interfaz completamente en español;
-- módulos visuales para proyectos, requisitos, riesgos, casos, ejecuciones, defectos, trazabilidad, reportes y validación final.
+- diseño responsive.
 
 ### 🗄️ Datos e infraestructura local
 
-<p>
-  <img src="https://img.shields.io/badge/SQL%20Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver&logoColor=white" alt="SQL Server 2022" />
-  <img src="https://skillicons.dev/icons?i=docker" alt="Docker" />
-</p>
-
 - SQL Server 2022;
 - Entity Framework Core SQL Server provider;
-- Docker Compose para el entorno local;
+- Docker Compose;
 - volumen persistente para la base de datos.
 
 ### 🧪 QA, testing y CI
 
-<p>
-  <img src="https://img.shields.io/badge/xUnit-Pruebas%20automatizadas-512BD4?style=flat-square&logo=dotnet&logoColor=white" alt="xUnit" />
-  <img src="https://skillicons.dev/icons?i=git,github,githubactions" alt="Git, GitHub y GitHub Actions" />
-</p>
-
 - xUnit para pruebas automatizadas del backend;
 - GitHub Actions para restore, build y tests .NET;
 - GitHub Actions para instalación y build del frontend;
-- evidencia de validación final para seguridad, rendimiento, usabilidad y UAT;
-- quality gate calculado a partir de evidencia real del proyecto.
-
-> Herramientas como Playwright, Postman/Newman o k6 no se presentan como implementadas mientras no formen parte versionada del repositorio.
+- trazabilidad de requisitos, riesgos, pruebas, ejecuciones y defectos;
+- evidencia final para seguridad, rendimiento, usabilidad y UAT;
+- quality gate calculado a partir de evidencia real.
 
 ---
 
-## ✅ Estado actual — Foundation + fases 1–7 completas
-
-QAssure se encuentra en estado **1.0 Release Candidate**. La plataforma implementa el ciclo funcional completo previsto para la entrega académica.
+## ✅ Fases implementadas
 
 | Fase | Alcance | Estado |
 |---:|---|:---:|
@@ -154,23 +121,6 @@ QAssure se encuentra en estado **1.0 Release Candidate**. La plataforma implemen
 | 5 | Matriz de trazabilidad y cobertura | ✅ |
 | 6 | Reportes de calidad, métricas y quality gates | ✅ |
 | 7 | Evidencia de seguridad, rendimiento, usabilidad y UAT | ✅ |
-
-El sistema **no fabrica estados verdes**. Un proyecto puede permanecer `Conditional` o `Blocked` hasta que la evidencia registrada satisfaga realmente las condiciones del gate.
-
----
-
-## 🖥️ Centro de control QA
-
-La experiencia web actual organiza QAssure como un centro de control operativo:
-
-- dashboard principal con contexto del proyecto seleccionado;
-- acceso directo a Proyectos QA, Requisitos, Riesgos y Casos de prueba;
-- Ciclos de prueba y Ejecuciones;
-- gestión de Defectos y re-pruebas;
-- Matriz de trazabilidad;
-- Reporte de calidad y puertas de liberación;
-- Validación final;
-- navegación y mensajes completamente localizados al español.
 
 ---
 
@@ -244,8 +194,6 @@ React 19 + TypeScript + Vite
      SQL Server 2022
 ```
 
-La solución mantiene separación por capas mediante **Clean Architecture**, evitando que el dominio dependa directamente de infraestructura, persistencia o interfaz web.
-
 ---
 
 ## 🚀 Desarrollo local
@@ -273,11 +221,7 @@ npm install
 npm run dev
 ```
 
-La URL base predeterminada de la API para el frontend es:
-
-```text
-http://localhost:5000
-```
+La URL base predeterminada de la API para el frontend es `http://localhost:5000`.
 
 ### Credenciales locales
 
@@ -288,30 +232,28 @@ Password: QAssure.Local123!
 
 Estas credenciales son exclusivamente para desarrollo local.
 
-> **Base de datos académica:** el bootstrap actual utiliza `EnsureCreated`. Si se actualiza desde una fase anterior, puede ser necesario recrear una vez la base local para incorporar las tablas nuevas. Una evolución productiva debería reemplazar este mecanismo por EF Core Migrations.
+> El bootstrap académico utiliza `EnsureCreated`. Una evolución productiva debería sustituirlo por EF Core Migrations.
 
 ---
 
 ## 🧪 Calidad y CI
 
-El workflow `.github/workflows/ci.yml` ejecuta dos jobs independientes:
+El workflow `.github/workflows/ci.yml` ejecuta:
 
-### Backend
-
+**Backend**
 - `dotnet restore`;
 - `dotnet build` en Release;
 - `dotnet test` en Release.
 
-### Frontend
-
+**Frontend**
 - Node.js 22;
-- instalación de dependencias;
-- TypeScript type-check mediante el script de build;
+- `npm install`;
+- TypeScript type-check;
 - build de Vite.
 
 ---
 
-## 📚 Evidencia y documentación por fase
+## 📚 Evidencia y documentación
 
 - [`docs/PHASE-1.md`](docs/PHASE-1.md)
 - [`docs/PHASE-2.md`](docs/PHASE-2.md)
@@ -333,6 +275,6 @@ QAssure está diseñado para que el propio sistema pueda verificarse y validarse
 
 <div align="center">
 
-**QAssure · ISO-410 · UNAPEC · 1.0 Release Candidate**
+**QAssure · ISO-410 · UNAPEC · v1.0.0 · FROZEN**
 
 </div>
