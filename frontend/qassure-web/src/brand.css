@@ -88,6 +88,62 @@
   background-origin: border-box;
 }
 
+/* Runtime recovery: never leave the user with a silent blank screen. */
+.runtimeRecovery {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  padding: 32px 20px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(24, 161, 255, .18), transparent 28%),
+    linear-gradient(145deg, #020b19, #061a33 58%, #03101f);
+}
+
+.runtimeRecovery img {
+  width: min(320px, 72vw);
+  height: auto;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 20px 40px rgba(0, 145, 255, .2));
+}
+
+.runtimeRecovery p {
+  margin: 0;
+  color: #4ee6dc;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.runtimeRecovery h1 {
+  max-width: 760px;
+  margin: 0;
+  color: #edfaff;
+  font-size: clamp(1.65rem, 4vw, 2.65rem);
+  letter-spacing: -.035em;
+}
+
+.runtimeRecovery > span {
+  max-width: 700px;
+  color: #7fa2b9;
+  line-height: 1.65;
+}
+
+.runtimeRecovery button {
+  margin-top: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  color: #031923;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(110deg, #2de0c0, #36cfff);
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: 0 14px 34px rgba(31, 197, 213, .16);
+}
+
 @media (max-width: 920px) {
   .mobileBrand .brandMark {
     background-size: 185% auto !important;
