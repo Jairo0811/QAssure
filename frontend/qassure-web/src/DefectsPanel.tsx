@@ -49,7 +49,13 @@ export default function DefectsPanel({ token, projects, selectedProject, selecte
     [executions],
   )
   const finalExecutions = useMemo(
-    () => executions.filter((execution) => execution.result !== 'NotRun'),
+    () => executions
+      .filter((execution) => execution.result !== 'NotRun')
+      .sort((left, right) => {
+        const leftTime = left.executedAtUtc ? Date.parse(left.executedAtUtc) : 0
+        const rightTime = right.executedAtUtc ? Date.parse(right.executedAtUtc) : 0
+        return rightTime - leftTime
+      }),
     [executions],
   )
 
@@ -155,8 +161,20 @@ export default function DefectsPanel({ token, projects, selectedProject, selecte
                     <button
                       className="linkButton"
                       onClick={() => {
-                        const candidates = finalExecutions.filter((execution) => execution.testCaseId === defect.testCaseId)
-                        const id = prompt(`ID de ejecución de re-prueba (${candidates.length} candidatas)`, candidates.at(-1)?.id ?? '')
+                        const candidates = finalExecutions.filter(
+                          (execution) => execution.testCaseId === defect.testCaseId && execution.id !== defect.executionId,
+                        )
+                        const latest = candidates[0]
+                        if (!latest) {
+                          setMessage('No hay una ejecución de re-prueba disponible para este caso. Ejecuta el caso nuevamente antes de verificar el defecto.')
+                          return
+                        }
+
+                        const when = latest.executedAtUtc ? new Date(latest.executedAtUtc).toLocaleString() : 'sin fecha'
+                        const id = prompt(
+                          `ID de ejecución de re-prueba (${candidates.length} candidatas). Más reciente: ${labelEs(latest.result)} · ${when}`,
+                          latest.id,
+                        )
                         if (id) void verifyDefectRetest(token, selectedProjectId, defect.id, id).then(load)
                       }}
                     >
