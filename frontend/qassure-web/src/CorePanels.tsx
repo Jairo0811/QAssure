@@ -158,7 +158,7 @@ export function RisksPanel({ projects, selectedProject, selectedProjectId, requi
       <ProjectPicker projects={projects} selectedProject={selectedProject} selectedProjectId={selectedProjectId} onProjectChange={onProjectChange} eyebrow="CONTEXTO · RIESGO" />
       <section className="splitLayout requirementsLayout">
         <div className="panel">
-          <div className="panelTitle"><div><p className="eyebrow">RISK-BASED TESTING</p><h3>Registro de riesgos</h3></div><span>{risks.length}</span></div>
+          <div className="panelTitle"><div><p className="eyebrow">PRUEBAS BASADAS EN RIESGOS</p><h3>Registro de riesgos</h3></div><span>{risks.length}</span></div>
           <div className="requirementsList">
             {risks.map((risk) => (
               <article className={`riskCard risk${risk.level}`} key={risk.id}>
