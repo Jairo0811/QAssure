@@ -37,15 +37,15 @@ interface Props {
 }
 
 const modules: Array<{ label: string; target: DashboardTarget; icon: IconName; keywords: string }> = [
-  { label: 'Proyectos QA', target: 'projects', icon: 'folder', keywords: 'proyectos qa calidad' },
+  { label: 'Proyectos de QA', target: 'projects', icon: 'folder', keywords: 'proyectos qa calidad' },
   { label: 'Requisitos', target: 'requirements', icon: 'requirement', keywords: 'requisitos cobertura requerimientos' },
   { label: 'Análisis de riesgos', target: 'risks', icon: 'risk', keywords: 'riesgos probabilidad impacto' },
   { label: 'Casos de prueba', target: 'testCases', icon: 'test', keywords: 'casos pruebas diseño testing' },
-  { label: 'Ciclos de prueba', target: 'testRuns', icon: 'run', keywords: 'ciclos ejecucion regression smoke' },
+  { label: 'Ciclos de prueba', target: 'testRuns', icon: 'run', keywords: 'ciclos ejecucion regresion humo' },
   { label: 'Defectos', target: 'defects', icon: 'bug', keywords: 'defectos bugs incidencias repruebas' },
   { label: 'Trazabilidad', target: 'traceability', icon: 'trace', keywords: 'trazabilidad matriz cobertura' },
-  { label: 'Reporte de calidad', target: 'reports', icon: 'report', keywords: 'reporte informe gate calidad release' },
-  { label: 'Validación final', target: 'validation', icon: 'validation', keywords: 'validacion seguridad rendimiento usabilidad uat' },
+  { label: 'Reporte de calidad', target: 'reports', icon: 'report', keywords: 'reporte informe puerta calidad liberacion' },
+  { label: 'Validación final', target: 'validation', icon: 'validation', keywords: 'validacion seguridad rendimiento usabilidad aceptacion' },
 ]
 
 export default function QaDashboard({ token, projects, selectedProject, selectedProjectId, requirements, risks, testCases, onProjectChange, onNavigate }: Props) {
@@ -100,6 +100,7 @@ export default function QaDashboard({ token, projects, selectedProject, selected
   const derived = useMemo(() => {
     const coveredIds = new Set(testCases.flatMap((item) => item.requirementId ? [item.requirementId] : []))
     const fallbackCoverage = requirements.length ? Math.round(coveredIds.size * 100 / requirements.length) : 0
+    const orderedRuns = [...runs].sort((a, b) => runTimestamp(b) - runTimestamp(a))
     const totalRunCases = runs.reduce((sum, run) => sum + run.total, 0)
     const pending = runs.reduce((sum, run) => sum + run.notRun, 0)
     const executed = Math.max(0, totalRunCases - pending)
@@ -108,12 +109,15 @@ export default function QaDashboard({ token, projects, selectedProject, selected
     const requirementCoverage = report?.metrics.requirementCoverage ?? traceability?.summary.requirementCoverage ?? fallbackCoverage
     const openDefects = report?.metrics.openDefects ?? defects.filter((item) => item.status !== 'Closed').length
     const criticalOpenDefects = report?.metrics.criticalOpenDefects ?? defects.filter((item) => item.severity === 'Critical' && item.status !== 'Closed').length
+    const closedDefects = defects.filter((item) => item.status === 'Closed').length
+    const defectClosureRate = defects.length ? Math.round(closedDefects * 100 / defects.length) : 100
     const criticalOpenRisks = risks.filter((item) => item.level === 'Critical' && item.status === 'Open').length
     const approvedRequirements = report?.metrics.approvedRequirements ?? requirements.filter((item) => item.status === 'Approved').length
     const readyCases = report?.metrics.readyTestCases ?? testCases.filter((item) => item.status === 'Ready').length
+    const readyCaseRate = testCases.length ? Math.round(readyCases * 100 / testCases.length) : 0
     const completedRuns = report?.metrics.completedRuns ?? runs.filter((item) => item.status === 'Completed').length
     const validationPassed = report?.metrics.validationAreasPassed ?? new Set(validation.filter((item) => item.result === 'Passed').map((item) => item.category)).size
-    const currentRun = runs.find((item) => item.status === 'InProgress') ?? runs[0] ?? null
+    const currentRun = orderedRuns.find((item) => item.status === 'InProgress') ?? null
     const currentProgress = currentRun?.total ? Math.round((currentRun.total - currentRun.notRun) * 100 / currentRun.total) : 0
 
     return {
@@ -122,15 +126,19 @@ export default function QaDashboard({ token, projects, selectedProject, selected
       passRate,
       openDefects,
       criticalOpenDefects,
+      closedDefects,
+      defectClosureRate,
       criticalOpenRisks,
       approvedRequirements,
       readyCases,
+      readyCaseRate,
       completedRuns,
       validationPassed,
       currentRun,
       currentProgress,
       totalRunCases,
       executed,
+      orderedRuns,
     }
   }, [defects, report, requirements, risks, runs, testCases, traceability, validation])
 
@@ -153,16 +161,18 @@ export default function QaDashboard({ token, projects, selectedProject, selected
         <p className="eyebrow">CENTRO DE CONTROL QA</p>
         <h3>Crea tu primer proyecto de calidad</h3>
         <p>QAssure conectará requisitos, riesgos, casos, ejecuciones, defectos, trazabilidad y validación en un mismo flujo.</p>
-        <button className="primary" onClick={() => onNavigate('projects')}>Crear proyecto QA</button>
+        <button className="primary" onClick={() => onNavigate('projects')}>Crear proyecto de QA</button>
       </section>
     )
   }
 
   const gateDecision = report?.gate.decision ?? 'Conditional'
   const gateReady = gateDecision === 'Ready'
-  const activity = runs.slice(0, 8).reverse()
+  const activity = derived.orderedRuns.slice(0, 8).reverse()
   const sparkValues = activity.length ? activity.map((run) => run.passRate) : [0, 0, 0, 0, 0, 0]
-  const latestEvidence = validation.slice(0, 4)
+  const latestEvidence = [...validation]
+    .sort((a, b) => Date.parse(b.executedAtUtc) - Date.parse(a.executedAtUtc))
+    .slice(0, 4)
   const traceRows = traceability?.rows.slice(0, 5) ?? []
 
   return (
@@ -195,7 +205,7 @@ export default function QaDashboard({ token, projects, selectedProject, selected
 
       <section className="qaHero">
         <div className="qaHeroCopy">
-          <p className="eyebrow">QASSURE · SOFTWARE QUALITY ASSURANCE</p>
+          <p className="eyebrow">QASSURE · ASEGURAMIENTO DE CALIDAD DE SOFTWARE</p>
           <h1>Verifica. <span>Valida.</span> <em>Asegura.</em></h1>
           <p>Gestión integral de calidad de software desde los requisitos hasta la liberación.</p>
           <div className="qaHeroChips">
@@ -215,7 +225,7 @@ export default function QaDashboard({ token, projects, selectedProject, selected
             {projects.map((project) => <option value={project.id} key={project.id}>{project.key} · {project.name}</option>)}
           </select>
           <div className="qaProjectMeta"><span>Versión {selectedProject?.version}</span><span>{labelEs(selectedProject?.criticality)}</span></div>
-          <div className="qaProgressLabel"><span>Progreso del ciclo actual</span><strong>{derived.currentProgress}%</strong></div>
+          <div className="qaProgressLabel"><span>Progreso del ciclo activo</span><strong>{derived.currentProgress}%</strong></div>
           <div className="qaProgress"><i style={{ width: `${derived.currentProgress}%` }} /></div>
           <small>{derived.currentRun ? `${labelEs(derived.currentRun.type)} · ${labelEs(derived.currentRun.environment)}` : 'Aún no hay un ciclo de prueba activo'}</small>
         </article>
@@ -223,8 +233,8 @@ export default function QaDashboard({ token, projects, selectedProject, selected
 
       <section className="qaKpiGrid">
         <KpiCard icon="requirement" tone="teal" label="Requisitos" value={requirements.length} percent={derived.requirementCoverage} detail={`${derived.approvedRequirements} aprobados`} onClick={() => onNavigate('requirements')} />
-        <KpiCard icon="test" tone="blue" label="Casos de prueba" value={testCases.length} percent={derived.passRate} detail={`${derived.readyCases} listos`} onClick={() => onNavigate('testCases')} />
-        <KpiCard icon="bug" tone="red" label="Defectos" value={derived.openDefects} percent={Math.max(0, 100 - Math.min(100, derived.openDefects * 8))} detail={`${derived.criticalOpenDefects} críticos abiertos`} onClick={() => onNavigate('defects')} />
+        <KpiCard icon="test" tone="blue" label="Casos de prueba" value={testCases.length} percent={derived.readyCaseRate} detail={`${derived.readyCases} de ${testCases.length} listos`} onClick={() => onNavigate('testCases')} />
+        <KpiCard icon="bug" tone="red" label="Defectos abiertos" value={derived.openDefects} percent={derived.defectClosureRate} detail={`${derived.closedDefects} de ${defects.length} cerrados`} onClick={() => onNavigate('defects')} />
         <KpiCard icon="trace" tone="cyan" label="Cobertura de requisitos" value={`${derived.requirementCoverage}%`} percent={derived.requirementCoverage} detail={`${traceability?.summary.coveredRequirements ?? 0} / ${traceability?.summary.requirements ?? requirements.length} cubiertos`} onClick={() => onNavigate('traceability')} />
       </section>
 
@@ -257,10 +267,10 @@ export default function QaDashboard({ token, projects, selectedProject, selected
 
         <article className="qaGlassCard qaDefectState">
           <div className="qaCardHead"><div><small>ESTADO DE DEFECTOS</small><strong>Salud de incidencias</strong></div><Glyph name="bug" /></div>
-          <Donut value={derived.openDefects ? Math.max(0, Math.round((defects.filter((item) => item.status === 'Closed').length * 100) / Math.max(1, defects.length))) : 100} center={`${defects.length}`} subtitle="Total" tone="multi" />
+          <Donut value={derived.defectClosureRate} center={`${defects.length}`} subtitle="Total" tone="multi" />
           <div className="qaDefectLegend">
             {['Critical', 'High', 'Medium', 'Low'].map((level) => <span key={level}><i className={`severityDot ${level.toLowerCase()}`} /> {defects.filter((item) => item.severity === level && item.status !== 'Closed').length} {labelEs(level)}</span>)}
-            <span><i className="severityDot closed" /> {defects.filter((item) => item.status === 'Closed').length} cerrados</span>
+            <span><i className="severityDot closed" /> {derived.closedDefects} cerrados</span>
           </div>
           <button className="qaCardLink" onClick={() => onNavigate('defects')}>Gestionar defectos <b>→</b></button>
         </article>
@@ -282,7 +292,7 @@ export default function QaDashboard({ token, projects, selectedProject, selected
           <div className="qaTraceTable">
             <div className="head"><span>Requisito</span><span>Casos</span><span>Cobertura</span><span>Defectos</span></div>
             {traceRows.length ? traceRows.map((row) => {
-              const rowCoverage = row.testCases.length ? Math.min(100, Math.round((row.passed > 0 ? row.passed : row.executions) * 100 / Math.max(1, row.executions || row.testCases.length))) : 0
+              const rowCoverage = row.covered ? 100 : 0
               return <div className="row" key={row.requirementId}><span><b>{row.code}</b><small>{row.title}</small></span><span>{row.testCases.length}</span><span><i><b style={{ width: `${rowCoverage}%` }} /></i><small>{row.covered ? 'Cubierto' : 'Sin cobertura'}</small></span><span className={row.openDefects ? 'danger' : 'ok'}>{row.openDefects}</span></div>
             }) : <div className="qaNoRows">Aún no hay filas de trazabilidad para mostrar.</div>}
           </div>
@@ -303,7 +313,7 @@ export default function QaDashboard({ token, projects, selectedProject, selected
         <article className="qaGlassCard qaEvidencePreview">
           <div className="qaCardHead"><div><small>EVIDENCIAS DE VALIDACIÓN</small><strong>Últimos registros</strong></div><button onClick={() => onNavigate('validation')}>Ver todas →</button></div>
           <div className="qaEvidenceGrid">
-            {latestEvidence.length ? latestEvidence.map((item) => <button className="qaEvidenceTile" key={item.id} onClick={() => onNavigate('validation')}><span className={item.result.toLowerCase()}><Glyph name={categoryIcon(item.category)} /></span><strong>{labelEs(item.category)}</strong><small>{labelEs(item.result)}</small><em>{formatDateEs(item.executedAtUtc)}</em></button>) : <div className="qaNoRows">Registra evidencias de seguridad, rendimiento, usabilidad y UAT.</div>}
+            {latestEvidence.length ? latestEvidence.map((item) => <button className="qaEvidenceTile" key={item.id} onClick={() => onNavigate('validation')}><span className={item.result.toLowerCase()}><Glyph name={categoryIcon(item.category)} /></span><strong>{labelEs(item.category)}</strong><small>{labelEs(item.result)}</small><em>{formatDateEs(item.executedAtUtc)}</em></button>) : <div className="qaNoRows">Registra evidencias de seguridad, rendimiento, usabilidad y aceptación de usuario.</div>}
           </div>
         </article>
       </section>
@@ -353,6 +363,10 @@ function categoryIcon(category: string): IconName {
   if (category === 'Performance') return 'pulse'
   if (category === 'Usability') return 'home'
   return 'validation'
+}
+
+function runTimestamp(run: TestRunSummary): number {
+  return Date.parse(run.startedAtUtc ?? run.createdAtUtc) || 0
 }
 
 function sparkPath(values: number[], width: number, height: number): string {

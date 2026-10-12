@@ -37,7 +37,7 @@ export default function TestRunsPanel({ token, projects, selectedProject, select
 
   useEffect(() => {
     setBuildVersion(selectedProject?.version ?? '0.1.0')
-  }, [selectedProject?.id])
+  }, [selectedProject?.id, selectedProject?.version])
 
   useEffect(() => {
     if (!selectedProjectId) {
@@ -51,9 +51,11 @@ export default function TestRunsPanel({ token, projects, selectedProject, select
 
   async function refreshRuns(focusId?: string) {
     try {
-      const next = await getTestRuns(token, selectedProjectId)
+      const response = await getTestRuns(token, selectedProjectId)
+      const next = [...response].sort((left, right) => Date.parse(right.createdAtUtc) - Date.parse(left.createdAtUtc))
       setRuns(next)
-      const nextId = focusId ?? selectedRunId ?? next[0]?.id ?? ''
+      const preservedSelection = selectedRunId && next.some((run) => run.id === selectedRunId) ? selectedRunId : ''
+      const nextId = focusId ?? preservedSelection ?? next[0]?.id ?? ''
       setSelectedRunId(nextId)
       if (nextId) setDetail(await getTestRun(token, selectedProjectId, nextId))
       else setDetail(null)
@@ -187,7 +189,7 @@ export default function TestRunsPanel({ token, projects, selectedProject, select
         <section className="panel executionBoard">
           <div className="runHeader">
             <div>
-              <p className="eyebrow">CICLO ACTIVO</p>
+              <p className="eyebrow">CICLO SELECCIONADO</p>
               <h3>{detail.run.name}</h3>
               <p className="muted">{labelEs(detail.run.type)} · {labelEs(detail.run.environment)} · compilación {detail.run.buildVersion}</p>
             </div>

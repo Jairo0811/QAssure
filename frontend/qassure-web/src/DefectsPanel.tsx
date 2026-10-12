@@ -195,7 +195,7 @@ export default function DefectsPanel({ token, projects, selectedProject, selecte
               <article className={`defectCard severity${defect.severity}`} key={defect.id}>
                 <div className="requirementTop">
                   <span className="itemCode">{defect.code}</span>
-                  <span className={`priority priority${defect.severity}`}>Sev. {defect.severity}</span>
+                  <span className={`priority priority${defect.severity}`}>Sev. {labelEs(defect.severity)}</span>
                   <span className={`pill ${defect.status.toLowerCase()}`}>{labelEs(defect.status)}</span>
                 </div>
                 <h4>{defect.title}</h4>

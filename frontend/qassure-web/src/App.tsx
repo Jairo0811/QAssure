@@ -42,7 +42,7 @@ type NavigationItem = {
 
 const navigation: NavigationItem[] = [
   { view: 'overview', label: 'Inicio', icon: faGaugeHigh },
-  { view: 'projects', label: 'Proyectos QA', icon: faFolderOpen },
+  { view: 'projects', label: 'Proyectos de QA', icon: faFolderOpen },
   { view: 'requirements', label: 'Requisitos', icon: faListCheck },
   { view: 'risks', label: 'Análisis de riesgos', icon: faTriangleExclamation },
   { view: 'testCases', label: 'Casos de prueba', icon: faFlaskVial },
@@ -128,7 +128,7 @@ function LoginScreen({ onAuthenticated }: { onAuthenticated: (session: AuthSessi
         <div className="loginHeading">
           <span className="loginIcon"><FontAwesomeIcon icon={faShieldHalved} /></span>
           <div>
-            <p className="eyebrow">QASSURE 1.0 RC</p>
+            <p className="eyebrow">QASSURE 1.0.0</p>
             <h2>Bienvenido de nuevo</h2>
             <p className="muted">ISO-410 · Centro integral de QA</p>
           </div>
@@ -231,7 +231,7 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
   }
 
   const phaseByView: Record<View, string> = {
-    overview: 'CANDIDATO A LANZAMIENTO',
+    overview: 'VERSIÓN ESTABLE 1.0.0',
     projects: 'FASE 1',
     requirements: 'FASE 1',
     risks: 'FASE 2',
@@ -262,7 +262,7 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
         <div className="sidebarBrandRow">
           <button className="brand brandButton" onClick={() => navigate('overview')} aria-label="Ir al panel principal">
             <span className="brandMark">Q✓</span>
-            <div><strong>QAssure</strong><small>Quality Assurance</small></div>
+            <div><strong>QAssure</strong><small>Aseguramiento de Calidad</small></div>
           </button>
           <button className="mobileSidebarClose" onClick={() => setSidebarOpen(false)} aria-label="Cerrar navegación">
             <FontAwesomeIcon icon={faXmark} />
@@ -283,7 +283,7 @@ function Workspace({ session, onLogout }: { session: AuthSession; onLogout: () =
 
         <div className="sidebarQualityHint">
           <FontAwesomeIcon icon={faShieldHalved} />
-          <div><strong>QA Command Center</strong><small>7 fases · ciclo completo</small></div>
+          <div><strong>Centro de Control QA</strong><small>7 fases · ciclo completo</small></div>
         </div>
 
         <div className="userCard">

@@ -20,7 +20,10 @@ export default function ValidationPanel({ token, projects, selectedProject, sele
   const [message, setMessage] = useState('')
 
   const load = () => {
-    if (!selectedProjectId) return
+    if (!selectedProjectId) {
+      setItems([])
+      return
+    }
     getValidationEvidence(token, selectedProjectId)
       .then(setItems)
       .catch((reason) => setMessage(errorMessageEs(reason, 'No se pudo cargar la evidencia de validación.')))
@@ -43,8 +46,11 @@ export default function ValidationPanel({ token, projects, selectedProject, sele
     }
   }
 
+  // The API history order is not part of the UI contract. Sort explicitly so
+  // cards and history always represent the newest evidence first.
+  const orderedItems = [...items].sort((left, right) => Date.parse(right.executedAtUtc) - Date.parse(left.executedAtUtc))
   const latest = new Map<string, ValidationEvidence>()
-  for (const item of items) {
+  for (const item of orderedItems) {
     if (!latest.has(item.category)) latest.set(item.category, item)
   }
 
@@ -84,7 +90,7 @@ export default function ValidationPanel({ token, projects, selectedProject, sele
           <div className="panelTitle"><h3>Historial de evidencias de validación</h3><span>{items.length}</span></div>
           <div className="requirementsList">
             {!items.length && <p className="empty">Todavía no hay evidencias registradas.</p>}
-            {items.map((item) => (
+            {orderedItems.map((item) => (
               <article className="requirementCard" key={item.id}>
                 <div className="requirementTop">
                   <span className="itemCode">{labelEs(item.category)}</span>
